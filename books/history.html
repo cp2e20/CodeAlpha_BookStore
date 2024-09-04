@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <a href="index.html">
+            <img
+              src="assets/logo.png"
+              alt="Logo"
+              width="150px"
+              height="100px"
+            />
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="history.html">
+              <img src="assets/history.png" width="30px" height="30px" />
+            </a>
+          </li>
+          <li>
+            <input type="text" id="search-bar" placeholder="Search books..." />
+            <button id="search-btn">Search</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="history-list" class="row">
+      <!-- Books from history will be inserted here by JavaScript -->
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const historyList = document.getElementById("history-list");
+        const readBooks = JSON.parse(localStorage.getItem("readBooks")) || [];
+
+        const products = [
+          {
+            id: 1,
+            name: "Romance Novel 1",
+            image: "./assets/r1.jpg",
+            category: "Romance",
+            description: "Heartwarming love story set in a small town.",
+            rating: 4,
+          },
+          {
+            id: 2,
+            name: "Romance Novel 2",
+            image: "./assets/r2.jpg",
+            category: "Romance",
+            description: "A tale of forbidden love and family secrets.",
+            rating: 4.5,
+          },
+          {
+            id: 3,
+            name: "Romance Novel 3",
+            image: "./assets/r3.jpg",
+            category: "Romance",
+            description: "A modern love story with a twist.",
+            rating: 3,
+          },
+          {
+            id: 4,
+            name: "Mystery Thriller 1",
+            image: "./assets/m1.jpg",
+            category: "Mystery",
+            description:
+              "A gripping mystery that will keep you on the edge of your seat.",
+            rating: 5,
+          },
+          {
+            id: 5,
+            name: "Mystery Thriller 2",
+            image: "./assets/m2.jpg",
+            category: "Mystery",
+            description: "A detective's hunt for a serial killer.",
+            rating: 4,
+          },
+          {
+            id: 6,
+            name: "Mystery Thriller 3",
+            image: "./assets/m3.jpg",
+            category: "Mystery",
+            description: "A cold case is reopened with shocking results.",
+            rating: 4.5,
+          },
+          {
+            id: 7,
+            name: "Fantasy Epic 1",
+            image: "./assets/f1.jpg",
+            category: "Fantasy",
+            description: "A hero's journey in a magical world.",
+            rating: 4.5,
+          },
+          {
+            id: 8,
+            name: "Fantasy Epic 2",
+            image: "./assets/f2.jpg",
+            category: "Fantasy",
+            description: "The battle between good and evil in a mystical land.",
+            rating: 5,
+          },
+          {
+            id: 9,
+            name: "Fantasy Epic 3",
+            image: "./assets/f3.jpg",
+            category: "Fantasy",
+            description: "A quest to find a lost artifact of great power.",
+            rating: 4.6,
+          },
+          {
+            id: 10,
+            name: "Fantasy Epic 4",
+            image: "./assets/f4.jpg",
+            category: "Fantasy",
+            description: "A story of dragons, knights, and magic.",
+            rating: 4,
+          },
+          {
+            id: 11,
+            name: "Fantasy Epic 5",
+            image: "./assets/f5.jpg",
+            category: "Fantasy",
+            description: "An epic saga of war and peace in a mythical kingdom.",
+            rating: 4.5,
+          },
+          {
+            id: 12,
+            name: "Thriller 1",
+            image: "./assets/th1.jpg",
+            category: "Thriller",
+            description: "A fast-paced thriller with unexpected twists.",
+            rating: 4.5,
+          },
+          {
+            id: 13,
+            name: "Thriller 2",
+            image: "./assets/th2.jpg",
+            category: "Thriller",
+            description:
+              "A psychological thriller that delves into the human mind.",
+            rating: 3.7,
+          },
+          {
+            id: 14,
+            name: "Thriller 3",
+            image: "./assets/th3.jpg",
+            category: "Thriller",
+            description: "A race against time to stop a dangerous criminal.",
+            rating: 4.5,
+          },
+          {
+            id: 15,
+            name: "Manga Volume 1",
+            image: "./assets/manga1.jpg",
+            category: "Manga",
+            description: "The adventures of a young ninja in a hidden village.",
+            rating: 4.5,
+          },
+          {
+            id: 16,
+            name: "Manga Volume 2",
+            image: "./assets/manga6.jpg",
+            category: "Manga",
+            description:
+              "A high school student's battle with supernatural forces.",
+            rating: 4.5,
+          },
+          {
+            id: 17,
+            name: "Manga Volume 3",
+            image: "./assets/manga2.jpg",
+            category: "Manga",
+            description:
+              "A story of friendship and rivalry in a fantasy world.",
+            rating: 4.75,
+          },
+          {
+            id: 18,
+            name: "Manga Volume 4",
+            image: "./assets/manga3.jpg",
+            category: "Manga",
+            description: "An epic journey across time and space.",
+            rating: 4.7,
+          },
+          {
+            id: 19,
+            name: "Manga Volume 5",
+            image: "./assets/manga4.jpg",
+            category: "Manga",
+            description: "A tale of revenge and redemption.",
+            rating: 5,
+          },
+          {
+            id: 20,
+            name: "Manga Volume 6",
+            image: "./assets/manga5.jpeg",
+            category: "Manga",
+            description: "A story of love, loss, and the fight for survival.",
+            rating: 4.5,
+          },
+        ];
+
+        readBooks.forEach((bookId) => {
+          const book = products.find(
+            (product) => product.id === parseInt(bookId)
+          );
+          if (book) {
+            const bookElement = document.createElement("div");
+            bookElement.className = "product-card";
+            bookElement.innerHTML = `
+              <div class="product-image">
+                <img src="${book.image}" alt="${book.name}" />
+              </div>
+              <div class="product-info">
+                <h3>${book.name}</h3>
+                <p>${book.description}</p>
+                <p>Rating: ${book.rating}</p>
+              </div>
+            `;
+            historyList.appendChild(bookElement);
+          }
+        });
+      });
+    </script>
+    <script src="scripts.js"></script>
+
+    <footer class="footer">
+      <div class="container-foot">
+        <p class="copyright">Copyright 2024 - Tala Hareb</p>
+      </div>
+    </footer>
+  </body>
+</html>
